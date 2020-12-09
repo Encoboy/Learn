@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let userData = {
+  id:1,
+  name:'xiaoming',
+  run(){
+    console.log('我可以跑步')
+  },
+  eat(){
+    console.log('我可以吃饭')
+  }
+}
+
+let methods = {
+  id:Symbol(),
+  slipe:Symbol(),
+  up:Symbol(),
+}
+
+userData[methods.id] = 18;
+console.log(userData)
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="btn">button</div>
+  
+  <script>
+    // window.name = '贺院'
+    // function school(){
+    //   console.log(this.name)
+    // }
+    // let school2  = () => {
+    //   console.log(this.name)
+    // }
+    // const schoolName = {
+    //   name:'南宁学院'
+    // }
+    // // school();
+    // // school2();
+    // school.bind(schoolName)();
+    // school2.bind(schoolName)();
+    // const classroom = () => {
+    //   console.log(arguments);
+    // }
+    // classroom('小明',20)
+
+    // name = '小花';
+    // let ming = {
+    //   name:'小明',
+    //   getName: ()=>{  // 这里不适合用箭头函数
+    //     console.log(this.name)
+    //   },
+    // }
+    // ming.getName()
+
+      const btn = document.getElementById('btn')
+      btn.addEventListener('click',()=>{
+        this.style.background = 'red' // 不能读取background没有被定义
+      })
+
+  </script>
+</body>
+</html>
