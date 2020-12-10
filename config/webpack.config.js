@@ -29,6 +29,9 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 
 const postcssNormalize = require('postcss-normalize');
 
+// 添加UglifyJsPlugin
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -60,6 +63,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -77,6 +82,7 @@ const hasJsxRuntime = (() => {
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
+  console.log('webpackEnv:',webpackEnv);
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
 
@@ -331,6 +337,7 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        '@':path.resolve(__dirname,'../src'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -409,6 +416,8 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
+
+                  
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
                     require.resolve('react-refresh/babel'),
@@ -464,6 +473,7 @@ module.exports = function (webpackEnv) {
                 sourceMap: isEnvProduction
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
+                modules: true,
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -497,6 +507,7 @@ module.exports = function (webpackEnv) {
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
+                  modules: true,
                 },
                 'sass-loader'
               ),
@@ -523,6 +534,43 @@ module.exports = function (webpackEnv) {
                 'sass-loader'
               ),
             },
+            
+            //lessRegex 配置
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                },
+                'less-loader'
+              ),
+              sideEffects: true,
+            },
+            //lessModuleRegex
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
+                },
+                'less-loader'
+              ),
+            },
+
+          
+
+           
+
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
@@ -715,6 +763,23 @@ module.exports = function (webpackEnv) {
           },
         },
       }),
+
+    //  添加UglifyJsPlugin 应该放在生产环境使用
+     isEnvProduction && new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_debugger: true,
+            //drop_console  传递true以放弃对控制台的调用。*功能
+            drop_console: true,
+            // pure_funces 禁用console.log函数
+            pure_funcs: ['console.log'],
+          }
+        },
+        //  sourceMap 不知道拿来干嘛的？ https://www.npmjs.com/package/uglifyjs-webpack-plugin
+        sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+        parallel: true,
+     }),
+
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.

@@ -2,5 +2,8 @@
   "files.autoSave": "onFocusChange",
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
+  },
+  "path-intellisense.mappings": {
+    "@": "${workspaceRoot}/src"
   }
 }

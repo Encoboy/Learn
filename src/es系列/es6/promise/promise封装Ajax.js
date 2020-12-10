@@ -19,5 +19,5 @@ export function getJSON(url){
     return promise;
   }
 
-  getJSON(url).then(value => console.log(value)).catch(err => console.log(err))
+  // getJSON(url).then(value => console.log(value)).catch(err => console.log(err))
 

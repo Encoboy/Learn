@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from "react";
-// hooks
-import Active from "./hooks/component/active";
-import Gift from "./hooks/component/gift";
-import Index from "./hooks/redux/index";
-import Call from "./hooks/hooks/useCallback";
+import React from "react";
+import Header from '@/components/header/index';
+import Footer from '@/components/footer/index';
+import styles from '@/css/index.scss'
 
 
 function App() {
-  const [active, setActive] = useState(0);
   return (
-    <div>
-      <div>
-        <div onClick={() => setActive(0)}>Active</div>
-        <div onClick={() => setActive(1)}>Gift</div>
-      </div>
-      <div>
-        <Active active={active} />
-        <Gift active={active} />
-      </div>
-      <Index />
-      <Call />
+    <div className="box">
+      <Header/>
+      <div className={styles.title}>一个app</div>
+      <Footer/>
     </div>
   );
 }
