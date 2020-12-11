@@ -28,3 +28,8 @@ alias: {
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src"
   }
+
+暂时先补充（日后再烟酒）：
+5、可以配置entry，output，htmlwebpackplugin 对不同的组件打包到不同的文件，放到不一样的index.html
+6、devtool 可以用来做调试的功能  source-map
+7、

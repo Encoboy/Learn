@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用Object.defineProperty的get和set属性实现双向绑定</title>
+</head>
+<body>
+  <input id="write" type="text" oninput="chageInput(this.value)">
+  <div id="title">sss</div>
+  <button id="btn" onclick="getValue()">按钮</button>
+</body>
+  <script>
+    const input = document.getElementById('write');
+    const title = document.getElementById('title');
+    const btn = document.getElementById('btn');
+    
+    let data = {};
+    let chageInput = function(value){
+      data.a = value;
+    }
+
+    let getValue = function(){
+      data.a = '按钮的值'
+    }
+
+    Object.defineProperty(data,'a',{
+      set:function(value){
+        console.log('值被修改了')
+        title.innerHTML = value;
+        input.value = value;
+      },
+      get:function(){
+        console.log('值被访问了')
+      }
+    })
+
+
+  </script>
+</html>

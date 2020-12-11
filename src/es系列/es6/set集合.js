@@ -39,4 +39,13 @@ let arr = [1,2,3,4,5,4,3];
 // let arr4 = [...new Set(arr)].filter(item => new Set(arr2).has(item))  // 方法二
 // console.log(arr4)
 
-/* 3. 数组个并集 */
+/* 3. 数组个并集 两个数组的合并 你的加上我的*/
+// let arr2 = [2,3,4,4,8,9];
+// let arr3 = [...new Set([...new Set(arr),...new Set(arr2)])];
+// console.log(arr3);
+
+/* 4. 差集 我有的你没有，你有的我米有 合成的一个数组 */
+let arr2 = [4,4,5,6,7,7];
+let arr3 = [...new Set(arr2)].filter(item => !new Set(arr).has(item))
+let arr4 = [...new Set(arr)].filter(item => !new Set(arr2).has(item))
+console.log([...arr3,...arr4])
